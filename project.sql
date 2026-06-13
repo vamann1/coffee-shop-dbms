@@ -103,6 +103,19 @@ ADD CONSTRAINT chk_telefon_format CHECK (REGEXP_LIKE(telefon, '^07[0-9]{8}$'));
 ALTER TABLE Furnizori
 ADD CONSTRAINT uq_furnizori_telefon UNIQUE (telefon);
 
+ALTER TABLE Furnizori
+ADD CONSTRAINT uq_furnizori_telefon UNIQUE (telefon);
+
+/* View pentru verificarea daca suma platilor este egala cu totalul din Comenzi. */
+CREATE OR REPLACE VIEW v_verif_plati AS
+SELECT c.id_comanda,
+       c.total AS total_comanda,
+       NVL(SUM(p.suma), 0) AS total_plati,
+       c.total - NVL(SUM(p.suma), 0) AS diferenta
+FROM Comenzi c, Plati p
+WHERE c.id_comanda = p.id_comanda(+)
+GROUP BY c.id_comanda, c.total;
+
 -- OPERATII DML
 INSERT INTO Furnizori VALUES (100, 'Confex SRL', 'Bucuresti', '0738272929', 'confex_business@gmail.ro');
 INSERT INTO Furnizori VALUES (101, 'Dropshot Coffee', 'Cluj-Napoca', '0739240185', 'dropshot_enq@gmail.ro');
