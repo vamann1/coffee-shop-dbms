@@ -1,4 +1,4 @@
-# Coffee Shop Management — DBMS Academic Project
+# Coffee Shop Management - DBMS Academic Project
 
 ## Database structure
 I included a database diagram in the repo. 
